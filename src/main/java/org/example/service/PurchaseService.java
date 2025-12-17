@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.example.adapter.PurchaseAdapter;
 import org.example.model.Purchase;
@@ -8,18 +9,19 @@ import org.example.util.FileUtil;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-
+@AllArgsConstructor
 public class PurchaseService {
 
-    private final PurchaseAdapter purchaseAdapter = new PurchaseAdapter();
-    private final FileUtil fileUtil = new FileUtil();
+    private PurchaseAdapter purchaseAdapter;
+    private FileUtil fileUtil;
 
-    public Map<String, Double> getTotalSum(String dataPath, double cost,
+    private Map<String, Double> getTotalSum(String dataPath, double cost,
                                                 int discountPercent, int discountStep) {
         Map<String, Double> sumMap = new HashMap<>();
-        ArrayList<Purchase> purchases = getPurchasesFromFile(dataPath);
+        List<Purchase> purchases = getPurchasesFromFile(dataPath);
 
         purchases.sort(Comparator.comparing(Purchase::getDate));
 
@@ -49,7 +51,7 @@ public class PurchaseService {
     }
 
 
-    public ArrayList<Purchase> getPurchasesFromFile(@NonNull String path) {
+    private List<Purchase> getPurchasesFromFile(@NonNull String path) {
         return purchaseAdapter.toPurchaseList(
                 fileUtil.getStrings(path, "\\|"));
     }

@@ -4,10 +4,11 @@ import org.example.model.Purchase;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PurchaseAdapter {
-    public ArrayList<Purchase> toPurchaseList(ArrayList<String[]> strings) {
-        ArrayList<Purchase> purchases = new ArrayList<>();
+    public List<Purchase> toPurchaseList(List<String[]> strings) {
+        List<Purchase> purchases = new ArrayList<>();
 
         for (String[] s : strings) {
             LocalDateTime date = LocalDateTime.parse(s[0]);

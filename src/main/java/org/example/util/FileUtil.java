@@ -1,6 +1,8 @@
 package org.example.util;
 
 
+import org.example.exception.IORuntimeException;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -8,11 +10,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
 public class FileUtil {
-    public ArrayList<String[]> getStrings(String path, String spliterator) {
+    public List<String[]> getStrings(String path, String spliterator) {
         ArrayList<String[]> data = new ArrayList<>();
         try (BufferedReader bufferedReader =
                      new BufferedReader(new FileReader(path))) {
@@ -23,7 +26,7 @@ public class FileUtil {
             }
 
         } catch (IOException e) {
-            System.out.println("Failed to read file.");
+            throw new IORuntimeException("Failed to read file.");
         }
         return data;
     }
@@ -38,7 +41,7 @@ public class FileUtil {
             }
 
         } catch (IOException e) {
-            System.out.println("Failed to save file.");
+            throw new IORuntimeException("Failed to save file.");
         }
     }
 }

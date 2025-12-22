@@ -9,20 +9,23 @@ import org.example.exception.FactoryException;
 public class PurchaseAdapterFactory {
 
     public PurchaseAdapter createAdapter(String path) {
-        int lastDotIndex = path.lastIndexOf('.');
-        String extension;
-
-        if (lastDotIndex == -1) {
-            extension = "No extension";
-        } else {
-            extension = path.substring(lastDotIndex + 1);
-        }
+        String extension = getExtension(path);
 
         return switch (extension) {
             case "txt" -> new PurchaseTxtAdapter();
             case "No extension" -> new PurchaseNoExtensionAdapter();
             default -> throw new FactoryException("Extension: \"" + extension + "\" is unsupported.");
         };
+    }
+
+    private String getExtension(String path) {
+        int lastDotIndex = path.lastIndexOf('.');
+
+        if (lastDotIndex == -1) {
+            return "No extension";
+        } else {
+            return path.substring(lastDotIndex + 1);
+        }
     }
 
 }

@@ -1,22 +1,22 @@
 package org.example.service;
 
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.example.adapter.PurchaseAdapter;
+import org.example.adapter.factory.PurchaseAdapterFactory;
 import org.example.model.Purchase;
 import org.example.util.FileUtil;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PurchaseService {
 
-    private PurchaseAdapter purchaseAdapter;
-    private FileUtil fileUtil;
+    private final PurchaseAdapterFactory purchaseAdapterFactory;
+    private final FileUtil fileUtil;
 
     private Map<String, Double> getTotalSum(String dataPath, double cost,
                                                 int discountPercent, int discountStep) {
@@ -52,7 +52,7 @@ public class PurchaseService {
 
 
     private List<Purchase> getPurchasesFromFile(@NonNull String path) {
-        return purchaseAdapter.toPurchaseList(
-                fileUtil.getStrings(path, "\\|"));
+        PurchaseAdapter adapter = purchaseAdapterFactory.createAdapter(path);
+        return adapter.toPurchaseList(path);
     }
 }

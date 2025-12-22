@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class FileUtil {
     public List<String[]> getStrings(String path, String spliterator) {
-        ArrayList<String[]> data = new ArrayList<>();
+        List<String[]> data = new ArrayList<>();
         try (BufferedReader bufferedReader =
                      new BufferedReader(new FileReader(path))) {
 

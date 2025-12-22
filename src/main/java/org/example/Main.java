@@ -1,6 +1,7 @@
 package org.example;
 
-import org.example.adapter.PurchaseAdapter;
+
+import org.example.adapter.factory.PurchaseAdapterFactory;
 import org.example.service.PurchaseService;
 import org.example.util.FileUtil;
 
@@ -12,10 +13,10 @@ public class Main {
         final int discountPercent = 50;
         final int discountStep = 5;
 
-        PurchaseAdapter purchaseAdapter = new PurchaseAdapter();
+        PurchaseAdapterFactory purchaseAdapterFactory = new PurchaseAdapterFactory();
         FileUtil fileUtil = new FileUtil();
 
-        PurchaseService service = new PurchaseService(purchaseAdapter, fileUtil);
+        PurchaseService service = new PurchaseService(purchaseAdapterFactory, fileUtil);
 
         service.saveResultInTextFile(
                 resultPath,

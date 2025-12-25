@@ -13,7 +13,7 @@ public class PurchaseAdapterFactory {
 
         return switch (extension) {
             case "txt" -> new PurchaseTxtAdapter();
-            case "No extension" -> new PurchaseNoExtensionAdapter();
+            case "" -> new PurchaseNoExtensionAdapter();
             default -> throw new FactoryException("Extension: \"" + extension + "\" is unsupported.");
         };
     }
@@ -22,7 +22,7 @@ public class PurchaseAdapterFactory {
         int lastDotIndex = path.lastIndexOf('.');
 
         if (lastDotIndex == -1) {
-            return "No extension";
+            return "";
         } else {
             return path.substring(lastDotIndex + 1);
         }

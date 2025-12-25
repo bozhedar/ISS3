@@ -1,5 +1,6 @@
 package org.example.adapter;
 
+import lombok.Getter;
 import org.example.model.Purchase;
 import org.example.util.FileUtil;
 
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public abstract class PurchaseAdapter {
     String SPLITERATOR = null;
     private final FileUtil fileUtil = new FileUtil();

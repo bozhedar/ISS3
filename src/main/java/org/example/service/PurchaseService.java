@@ -4,9 +4,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.example.adapter.PurchaseAdapter;
 import org.example.adapter.factory.PurchaseAdapterFactory;
+import org.example.exception.PurchaseServiceException;
 import org.example.model.Purchase;
 import org.example.util.FileUtil;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,7 @@ public class PurchaseService {
     private Map<String, Double> getTotalSum(String dataPath, double cost,
                                                 int discountPercent, int discountStep) {
         Map<String, Double> sumMap = new HashMap<>();
-        List<Purchase> purchases = getPurchasesFromFile(dataPath);
+        List<Purchase> purchases = new ArrayList<>(getPurchasesFromFile(dataPath));
 
         purchases.sort(Comparator.comparing(Purchase::getDate));
 
@@ -43,15 +45,20 @@ public class PurchaseService {
 
 
 
-    public void saveResultInTextFile(String resultPath, String dataPath, double cost,
+    public void saveResultInTextFile(@NonNull String resultPath, @NonNull String dataPath, double cost,
                                             int discountPercent, int discountStep) {
+        if (cost <= 0) {
+            throw new PurchaseServiceException("Cost must be more then zero");
+        } else if (discountPercent < 0) {
+            throw new PurchaseServiceException("Discount percent must be equal zero or more");
+        }
 
         Map<String, Double> sumMap = getTotalSum(dataPath, cost, discountPercent, discountStep);
         fileUtil.save(sumMap, resultPath);
     }
 
 
-    private List<Purchase> getPurchasesFromFile(@NonNull String path) {
+    private List<Purchase> getPurchasesFromFile(String path) {
         PurchaseAdapter adapter = purchaseAdapterFactory.createAdapter(path);
         return adapter.toPurchaseList(path);
     }

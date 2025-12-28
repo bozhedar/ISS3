@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,14 +33,18 @@ public class FileUtil {
     }
 
     public <K, V>  void save (Map<K, V> map, String resultPath) {
-        try (BufferedWriter writer =
-                     new BufferedWriter(new FileWriter(resultPath))) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter(resultPath))) {
 
-            for (Map.Entry<K, V> entry : map.entrySet()) {
+            Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
+
+            while (iterator.hasNext()) {
+                Map.Entry<K, V> entry = iterator.next();
                 writer.write(entry.getKey() + " - " + entry.getValue());
-                writer.newLine();
+                if (iterator.hasNext()) {
+                    writer.newLine();
+                }
             }
-
         } catch (IOException e) {
             throw new IORuntimeException("Failed to save file.");
         }

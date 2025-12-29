@@ -17,15 +17,13 @@ public abstract class PurchaseAdapter {
 
         List<String[]> strings = fileUtil.getStrings(path, SPLITERATOR);
 
-        List<Purchase> purchases = new ArrayList<>();
-
-        for (String[] s : strings) {
-            LocalDateTime date = LocalDateTime.parse(s[0]);
-            String name = s[1];
-            long sum = Long.parseLong(s[2]);
-
-            purchases.add(new Purchase(date, name, sum));
-        }
-        return purchases;
+        return strings.stream()
+                .map((s) -> {
+                    LocalDateTime date = LocalDateTime.parse(s[0]);
+                    String name = s[1];
+                    long sum = Long.parseLong(s[2]);
+                    return new Purchase(date, name, sum);
+                })
+                .toList();
     }
 }
